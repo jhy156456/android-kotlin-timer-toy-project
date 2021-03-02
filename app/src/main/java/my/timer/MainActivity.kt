@@ -32,12 +32,12 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
-    fun startSettingActivity(){
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.settings, SettingsFragment())
-            .commit()
-    }
+//    fun startSettingActivity(){
+//        supportFragmentManager
+//            .beginTransaction()
+//            .replace(R.id.settings, SettingsFragment())
+//            .commit()
+//    }
 
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
