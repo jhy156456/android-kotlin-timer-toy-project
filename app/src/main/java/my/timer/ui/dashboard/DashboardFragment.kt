@@ -22,6 +22,7 @@ class DashboardFragment : Fragment() {
         super.onCreate(savedInstanceState)
         dashboardViewModel =
             ViewModelProviders.of(this).get(DashboardViewModel::class.java)
+
     }
 
     override fun onCreateView(
@@ -30,6 +31,8 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         fragmentDashboardBinding = FragmentDashboardBinding.inflate(LayoutInflater.from(context),null,false)
+        //*study* 아래코드와 차이점 공부하기
+        //fragmentDashboardBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_dashboard,container,false)
         return fragmentDashboardBinding.root
     }
 
@@ -40,6 +43,7 @@ class DashboardFragment : Fragment() {
         fragmentDashboardBinding.lifecycleOwner = viewLifecycleOwner
         fragmentDashboardBinding.dashboardViewModel = dashboardViewModel
         dashboardViewModel.progress.observe(viewLifecycleOwner,{
+            Log.d("jhy", "progress : $it")
             activity
                 ?.findViewById<CircularProgressIndicator>(R.id.circular_progress)
                 ?.setProgressCompat(it, true)
