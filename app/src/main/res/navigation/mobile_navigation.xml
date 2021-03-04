@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="my.timer.ui.home.HomeFragment"
-        android:label="@string/title_home"
+        android:label="홈"
         tools:layout="@layout/fragment_home" />
 
     <fragment
@@ -20,6 +20,6 @@
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="my.timer.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:label="앱설정"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

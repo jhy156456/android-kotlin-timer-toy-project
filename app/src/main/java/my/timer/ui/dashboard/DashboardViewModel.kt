@@ -1,6 +1,7 @@
 package my.timer.ui.dashboard
 
 import android.os.SystemClock
+import android.provider.Settings
 import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
@@ -22,7 +23,6 @@ class DashboardViewModel : ViewModel() {
     }
     fun onClickSave() {
         saveButtonEvent.value = Event(true)
-        content.set("hihihihi")
 //        Log.d("jhy","minute : $content")
 //
 //        myTimer.scheduleAtFixedRate(object:TimerTask(){
