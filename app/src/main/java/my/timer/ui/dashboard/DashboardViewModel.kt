@@ -22,14 +22,20 @@ class DashboardViewModel : ViewModel() {
     val saveButtonEvent  = MutableLiveData<Event<Boolean>>().apply {
     }
     fun onClickSave() {
-        saveButtonEvent.value = Event(true)
-//        Log.d("jhy","minute : $content")
-//
-//        myTimer.scheduleAtFixedRate(object:TimerTask(){
-//            override fun run() {
-//                progress.postValue(progress.value?.plus(1))
-//            }
-//        },1000L,1000L)
+
+        val second :Int = Integer.valueOf(content.get()) * 60
+        var nowSecond =  0
+        val plusSecond:Double = (second / 100).toDouble()
+        myTimer.scheduleAtFixedRate(object:TimerTask(){
+            override fun run() {
+                Log.d("jhy", "nowSecond : $nowSecond")
+                nowSecond += plusSecond
+                progress.postValue(progress.value?.plus(1))
+                if (nowSecond>second){
+                    saveButtonEvent.value = Event(true)
+                }
+            }
+        },0,1000L)
     }
     fun onClickPause(){
         myTimer.cancel()
