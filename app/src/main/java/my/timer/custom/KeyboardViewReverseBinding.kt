@@ -14,7 +14,7 @@ object KeyboardViewReverseBinding  {
     //BindingAdapter는 데이터가 변경되었을 때 수행하고 싶은 작업을 작성
     @BindingAdapter("content")
     @JvmStatic
-    fun setKeyboardViewContent(view: KeyboardView, content: String?) {
+    fun setKeyboardViewPasswordFieldContent(view: KeyboardView, content: String?) {
         val old = view.password_field.text.toString()
         if (old != content) {
             view.password_field.setText(content)
@@ -41,5 +41,35 @@ object KeyboardViewReverseBinding  {
     @JvmStatic
     fun getContent(view: KeyboardView): String {
         return view.password_field.text.toString()
+    }
+
+
+
+    @BindingAdapter("second")
+    @JvmStatic
+    fun setKeyboardViewSecondContent(view: KeyboardView, content: String?) {
+        val old = view.second_field.text.toString()
+        if (old != content) {
+            view.second_field.setText(content)
+        }
+    }
+    @JvmStatic
+    @BindingAdapter("secondAttrChanged")
+    fun setKeyboardViewSecondInverseBindingListener(view: KeyboardView, listener: InverseBindingListener?) {
+        val watcher = object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+            }
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+            }
+            override fun afterTextChanged(editable: Editable) {
+                listener?.onChange()
+            }
+        }
+        view.second_field.addTextChangedListener(watcher)
+    }
+    @InverseBindingAdapter(attribute = "second",event = "secondAttrChanged")
+    @JvmStatic
+    fun getSecond(view: KeyboardView): String {
+        return view.second_field.text.toString()
     }
 }

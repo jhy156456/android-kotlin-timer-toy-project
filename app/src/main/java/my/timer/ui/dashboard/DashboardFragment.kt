@@ -56,14 +56,16 @@ class DashboardFragment : Fragment() {
         //Fragment : 아래 2줄의 코드를 실행하지 않으면 layout에서 onClick 메소드가 실행되지 않는다.
         fragmentDashboardBinding.lifecycleOwner = viewLifecycleOwner
         fragmentDashboardBinding.dashboardViewModel = dashboardViewModel
-
+        requestDevicePolicyManager();
         dashboardViewModel.progress.observe(viewLifecycleOwner, {
             Log.d("jhy", "progress : $it")
             activity
                 ?.findViewById<CircularProgressIndicator>(R.id.circular_progress)
                 ?.setProgressCompat(it, true)
         })
+        dashboardViewModel.checkPermissionEvent.observe(viewLifecycleOwner,EventObserver{
 
+        })
         dashboardViewModel.saveButtonEvent.observe(viewLifecycleOwner, EventObserver {
             val pm = context?.getSystemService(Context.POWER_SERVICE) as PowerManager?
             if (pm!!.isScreenOn) {
@@ -74,7 +76,7 @@ class DashboardFragment : Fragment() {
                 } catch (ex: SecurityException) {
                     Toast.makeText(
                         context,
-                        "must enable device administrator",
+                        getString(R.string.timer_permission),
                         Toast.LENGTH_LONG
                     ).show()
                     val admin = ComponentName(requireContext(),AdminReceiver::class.java)
@@ -90,18 +92,28 @@ class DashboardFragment : Fragment() {
 
         })
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == 0) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (Settings.System.canWrite(activity)) {
-                    Toast.makeText(activity, "권한을 얻었습니다", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(activity, "권한을 얻지 못하였습니다", Toast.LENGTH_SHORT).show()
-                }
+    private fun requestDevicePolicyManager(){
+        val pm = context?.getSystemService(Context.POWER_SERVICE) as PowerManager?
+        if (pm!!.isScreenOn) {
+            val policy =
+                context?.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager?
+            val admin = ComponentName(requireContext(),AdminReceiver::class.java)
+            if(!policy!!.isAdminActive(admin)){
+                Toast.makeText(
+                    context,
+                    getString(R.string.timer_permission),
+                    Toast.LENGTH_LONG
+                ).show()
+                val intent: Intent = Intent(
+                    DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN
+                ).putExtra(
+                    DevicePolicyManager.EXTRA_DEVICE_ADMIN, admin
+                )
+                context?.startActivity(intent)
             }
         }
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

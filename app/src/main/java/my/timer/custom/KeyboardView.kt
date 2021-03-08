@@ -86,18 +86,31 @@ open class KeyboardView : View.OnClickListener, FrameLayout {
         // handle number button click
         if (v!!.tag != null && "number_button" == v.tag) {
             var clickView = v as TextView
-            mBinding.passwordField.append(clickView.text)
+            if(mBinding.passwordField.text.length >= 2){
+                if(mBinding.secondField.text.length>=2){
+                    return;
+                } else{
+                    mBinding.secondField.append(clickView.text)
+                }
+            } else{
+                mBinding.passwordField.append(clickView.text)
+            }
+
             return
         }
         when (v?.id) {
             R.id.t9_key_clear -> { // handle clear button
                 mBinding.passwordField.setText("")
+                mBinding.secondField.setText("")
             }
             R.id.t9_key_backspace -> { // handle backspace button
                 // delete one character
-                var charCount = mBinding.passwordField.text!!.length
-                if (charCount > 0) {
-                    mBinding.passwordField.text!!.delete(charCount - 1, charCount)
+                var minuteCount = mBinding.passwordField.text!!.length
+                var secondCount = mBinding.secondField.text!!.length
+                if (minuteCount > 0) {
+                    mBinding.passwordField.text!!.delete(minuteCount - 1, minuteCount)
+                } else if(secondCount >0){
+                    mBinding.secondField.text!!.delete(secondCount - 1, secondCount)
                 }
             }
         }

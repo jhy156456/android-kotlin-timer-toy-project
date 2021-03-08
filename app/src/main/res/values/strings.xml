@@ -8,6 +8,7 @@
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
+    <string name="timer_permission">타이머를 사용하려면 권한을 허용해주세요</string>
     <string name="sync_header">Sync</string>
 
     <!-- Messages Preferences -->
