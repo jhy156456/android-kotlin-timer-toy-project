@@ -57,6 +57,9 @@ class DashboardFragment : Fragment() {
         fragmentDashboardBinding.lifecycleOwner = viewLifecycleOwner
         fragmentDashboardBinding.dashboardViewModel = dashboardViewModel
         requestDevicePolicyManager();
+        //*study*
+        //activity를 background로 내리면 아래 코드는 동작하지 않고,
+        //foreground로 올리면 progress만 확 올라가고, 밀린 로그들은 찍히지 않는다.
         dashboardViewModel.progress.observe(viewLifecycleOwner, {
             Log.d("jhy", "progress : $it")
             activity
@@ -66,10 +69,11 @@ class DashboardFragment : Fragment() {
         dashboardViewModel.checkPermissionEvent.observe(viewLifecycleOwner,EventObserver{
 
         })
-        dashboardViewModel.saveButtonEvent.observe(viewLifecycleOwner, EventObserver {
+
+        dashboardViewModel.saveButtonEvent.observeForever(EventObserver {
             val pm = context?.getSystemService(Context.POWER_SERVICE) as PowerManager?
             if (pm!!.isScreenOn) {
-                val policy =d
+                val policy =
                     context?.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager?
                 try {
                     policy!!.lockNow()
@@ -88,8 +92,6 @@ class DashboardFragment : Fragment() {
                     context?.startActivity(intent)
                 }
             }
-
-
         })
     }
     private fun requestDevicePolicyManager(){

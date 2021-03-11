@@ -34,6 +34,7 @@ class DashboardViewModel : ViewModel() {
 //        myTimer backgroundThread에서 saveButtonEvent setValue를 할 수 없다.
         myTimer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
+                Log.d("jhy","스케쥴")
                 val progressValue = if (plusSecond >= 100) {
                     100
                 } else {

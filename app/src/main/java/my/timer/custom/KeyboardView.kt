@@ -86,14 +86,14 @@ open class KeyboardView : View.OnClickListener, FrameLayout {
         // handle number button click
         if (v!!.tag != null && "number_button" == v.tag) {
             var clickView = v as TextView
-            if(mBinding.passwordField.text.length >= 2){
-                if(mBinding.secondField.text.length>=2){
+            if(mBinding.secondField.text.length >= 2){
+                if(mBinding.passwordField.text.length>=2){
                     return;
                 } else{
-                    mBinding.secondField.append(clickView.text)
+                    mBinding.passwordField.append(clickView.text)
                 }
             } else{
-                mBinding.passwordField.append(clickView.text)
+                mBinding.secondField.append(clickView.text)
             }
 
             return
@@ -107,10 +107,10 @@ open class KeyboardView : View.OnClickListener, FrameLayout {
                 // delete one character
                 var minuteCount = mBinding.passwordField.text!!.length
                 var secondCount = mBinding.secondField.text!!.length
-                if (minuteCount > 0) {
+                if (secondCount > 0) {
+                    mBinding.secondField.text!!.delete( secondCount- 1, secondCount)
+                } else if(minuteCount >0){
                     mBinding.passwordField.text!!.delete(minuteCount - 1, minuteCount)
-                } else if(secondCount >0){
-                    mBinding.secondField.text!!.delete(secondCount - 1, secondCount)
                 }
             }
         }
