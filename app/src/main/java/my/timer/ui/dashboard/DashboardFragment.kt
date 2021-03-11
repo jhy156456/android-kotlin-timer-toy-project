@@ -69,7 +69,7 @@ class DashboardFragment : Fragment() {
         dashboardViewModel.saveButtonEvent.observe(viewLifecycleOwner, EventObserver {
             val pm = context?.getSystemService(Context.POWER_SERVICE) as PowerManager?
             if (pm!!.isScreenOn) {
-                val policy =
+                val policy =d
                     context?.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager?
                 try {
                     policy!!.lockNow()
